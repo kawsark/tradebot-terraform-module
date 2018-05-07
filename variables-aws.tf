@@ -23,6 +23,10 @@ variable "App" {
   default = "Tradebot-server"
 }
 
+variable "aws_region" {
+  default = "us-east-1"
+}
+
 variable "az_1" {
   default = "us-east-1a"
 }

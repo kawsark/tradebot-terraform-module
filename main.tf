@@ -9,7 +9,7 @@ provider "azurerm" {
 
 provider "aws" {
  # AWS provider configured via default shared credentials file
- 
+ region = "${var.aws_region}" 
 }
 
 # Configure the Cloudflare provider
