@@ -4,3 +4,15 @@
 
 # Module directory
 .terraform/
+
+# Variable mapping
+*tfvars
+
+# Emacs, ansible and others
+*~
+**key_vars*
+**retry
+**id_rsa*
+**azure-ansible-hosts
+**azure_ip_addr.txt
+**tradebot_iam_user
