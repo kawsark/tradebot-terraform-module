@@ -12,10 +12,6 @@ output "server_fqdn" {
 }
 
 #AWS outputs
-output "instance_AZs" {
-  value = "${aws_autoscaling_group.tradebotserver_asg.availability_zones}"
-}
-
 output "queue_id" {
   value = "${aws_sqs_queue.tradebot_queue.id}"
 }

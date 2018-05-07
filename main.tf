@@ -478,22 +478,20 @@ resource "aws_route_table_association" "tradebot-private-1-b" {
 #IAM Roles:
 resource "aws_iam_role" "ec2-assume-role" {
   name = "ec2-assume-role"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
+  path = "/system/"
+  assume_role_policy = "${data.aws_iam_policy_document.instance-assume-role-policy.json}"
 }
-EOF
+
+#Assume role policy
+data "aws_iam_policy_document" "instance-assume-role-policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+          type = "Service"
+	  identifiers = ["ec2.amazonaws.com"]
+    }
+  }
 }
 
 #Instance profile
