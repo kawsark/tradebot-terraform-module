@@ -23,10 +23,6 @@ variable "App" {
   default = "Tradebot-server"
 }
 
-variable "Env" {
-  default = "Production"
-}
-
 variable "az_1" {
   default = "us-east-1a"
 }

@@ -303,7 +303,7 @@ resource "aws_vpc" "tradebot_vpc" {
   tags {
     Name = "tradebot_vpc"
     App  = "${var.App}"
-    Env  = "${var.Env}"
+    Env  = "${var.environment}"
   }
 }
 
@@ -317,7 +317,7 @@ resource "aws_subnet" "tradebot-public-1" {
   tags {
     Name = "tradebot-public-1"
     App  = "${var.App}"
-    Env  = "${var.Env}"
+    Env  = "${var.environment}"
   }
 }
 
@@ -330,7 +330,7 @@ resource "aws_subnet" "tradebot-public-2" {
   tags {
     Name = "tradebot-public-2"
     App  = "${var.App}"
-    Env  = "${var.Env}"
+    Env  = "${var.environment}"
   }
 }
 
@@ -343,7 +343,7 @@ resource "aws_subnet" "tradebot-private-1" {
   tags {
     Name = "tradebot-private-1"
     App  = "${var.App}"
-    Env  = "${var.Env}"
+    Env  = "${var.environment}"
   }
 }
 
@@ -356,7 +356,7 @@ resource "aws_subnet" "tradebot-private-2" {
   tags {
     Name = "tradebot-private-2"
     App  = "${var.App}"
-    Env  = "${var.Env}"
+    Env  = "${var.environment}"
   }
 }
 
@@ -367,7 +367,7 @@ resource "aws_internet_gateway" "tradebot-gw" {
   tags {
     Name = "tradebot-gw"
     App  = "${var.App}"
-    Env  = "${var.Env}"
+    Env  = "${var.environment}"
   }
 }
 
@@ -378,7 +378,7 @@ resource "aws_route_table" "tradebot-public" {
 tags {
     Name = "tradebot-public-1"
     App  = "${var.App}"
-    Env  = "${var.Env}"
+    Env  = "${var.environment}"
   }
 }
 
@@ -408,7 +408,7 @@ resource "aws_security_group" "tradebot-sg" {
   tags {
     Name = "tradebot-sg"
     App  = "${var.App}"
-    Env  = "${var.Env}"
+    Env  = "${var.environment}"
   }
 }
 
@@ -451,7 +451,7 @@ resource "aws_route_table" "tradebot-private" {
   tags {
     Name = "tradebot-private-1"
     App  = "${var.App}"
-    Env  = "${var.Env}"
+    Env  = "${var.environment}"
   }
 }
 
@@ -561,7 +561,7 @@ resource "aws_sqs_queue" "tradebot_queue" {
   # tags:
   tags {
     App  = "${var.App}"
-    Env  = "${var.Env}"
+    Env  = "${var.environment}"
   }
 
 }
@@ -610,7 +610,7 @@ resource "aws_autoscaling_group" "tradebotserver_asg" {
     },
     {
       key                 = "Env"
-      value               = "${var.Env}"
+      value               = "${var.environment}"
       propagate_at_launch = true
     },
     {
