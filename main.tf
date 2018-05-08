@@ -22,7 +22,7 @@ provider "cloudflare" {
 
 # Create the resource group
 resource "azurerm_resource_group" "tradebotresourcegroup" {
-  name     = "tradebotresourcegroup"
+  name     = "${format("tradebotRG-%s", var.environment)}"
   location = "${var.location}"
 
   tags {
@@ -33,7 +33,7 @@ resource "azurerm_resource_group" "tradebotresourcegroup" {
 
 # Create a VNET
 resource "azurerm_virtual_network" "tradebotvnet" {
-  name                = "tradebotvnet"
+  name                = "${format("tradebotvnet-%s", var.environment)}"
   address_space       = ["${var.vnet_address_space}"]
   location            = "${var.location}"
   resource_group_name = "${azurerm_resource_group.tradebotresourcegroup.name}"
@@ -46,7 +46,7 @@ resource "azurerm_virtual_network" "tradebotvnet" {
 
 # Create a Subnet
 resource "azurerm_subnet" "tradebotsubnet1" {
-  name                 = "tradebotsubnet1"
+  name                 = "${format("tradebotsubnet1-%s", var.environment)}"
   resource_group_name  = "${azurerm_resource_group.tradebotresourcegroup.name}"
   virtual_network_name = "${azurerm_virtual_network.tradebotvnet.name}"
   address_prefix       = "${var.subnet_address_prefix}"
@@ -54,7 +54,7 @@ resource "azurerm_subnet" "tradebotsubnet1" {
 
 #Create a network security group
 resource "azurerm_network_security_group" "tradebotpublicipnsg" {
-  name                = "tradebotpublicipnsg"
+  name                = "${format("tradebotpublicipnsg-%s", var.environment)}"
   location            = "${var.location}"
   resource_group_name = "${azurerm_resource_group.tradebotresourcegroup.name}"
 
@@ -127,7 +127,7 @@ data "azurerm_public_ip" "tradebotlbip" {
 }
 
 resource "azurerm_public_ip" "tradebotlbip" {
-  name                         = "tradebotlbip"
+  name                         = "${format("tradebotlbip-%s", var.environment)}"
   location                     = "${var.location}"
   resource_group_name          = "${azurerm_resource_group.tradebotresourcegroup.name}"
   public_ip_address_allocation = "dynamic"
@@ -136,7 +136,7 @@ resource "azurerm_public_ip" "tradebotlbip" {
 
 resource "azurerm_lb" "tradebotlb" {
   resource_group_name = "${azurerm_resource_group.tradebotresourcegroup.name}"
-  name                = "tradebotlb"
+  name                = "${format("tradebotlb-%s", var.environment)}"
   location            = "${var.location}"
 
   frontend_ip_configuration {
@@ -148,7 +148,7 @@ resource "azurerm_lb" "tradebotlb" {
 resource "azurerm_lb_backend_address_pool" "backend_pool" {
   resource_group_name = "${azurerm_resource_group.tradebotresourcegroup.name}"
   loadbalancer_id     = "${azurerm_lb.tradebotlb.id}"
-  name                = "BackendPool1"
+  name                = "${format("BackendPool1-%s", var.environment)}"
 }
 
 
@@ -189,7 +189,7 @@ data "vault_generic_secret" "tradebot_common_secret" {
 
 #Create Virtual Machine Scale Sets
 resource "azurerm_virtual_machine_scale_set" "tradebotwebuivmss" {
-  name                = "tradebotwebuivmss"
+  name                = "${format("tradebotwebuivmss-%s", var.environment)}"
   location            = "${var.location}"
   resource_group_name = "${azurerm_resource_group.tradebotresourcegroup.name}"
   upgrade_policy_mode = "Manual"
@@ -402,7 +402,6 @@ resource "aws_route_table_association" "tradebot-public-2-a" {
 
 resource "aws_security_group" "tradebot-sg" {
   vpc_id      = "${aws_vpc.tradebot_vpc.id}"
-  name        = "tradebot-sg"
   description = "security group that allows ssh and all egress traffic"
 
   tags {
@@ -477,7 +476,6 @@ resource "aws_route_table_association" "tradebot-private-1-b" {
 
 #IAM Roles:
 resource "aws_iam_role" "ec2-assume-role" {
-  name = "ec2-assume-role"
   path = "/system/"
   assume_role_policy = "${data.aws_iam_policy_document.instance-assume-role-policy.json}"
 }
@@ -496,15 +494,12 @@ data "aws_iam_policy_document" "instance-assume-role-policy" {
 
 #Instance profile
 resource "aws_iam_instance_profile" "ec2-assume-role-instanceprofile" {
-  name = "ec2-assume-role"
   role = "${aws_iam_role.ec2-assume-role.name}"
 }
 
 #IAM effective policy
 resource "aws_iam_role_policy" "tradebot-custom-access-role-policy" {
-  name = "tradebot-custom-access-role-policy"
   role = "${aws_iam_role.ec2-assume-role.id}"
-
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -591,7 +586,6 @@ resource "aws_launch_configuration" "tradebotserver_lc" {
 
 #Auto Scaling group
 resource "aws_autoscaling_group" "tradebotserver_asg" {
-  name                 = "tradebotserver_asg"
   launch_configuration = "${aws_launch_configuration.tradebotserver_lc.name}"
   min_size	       = "${var.asg_size_map["min"]}"
   max_size	       = "${var.asg_size_map["max"]}"
