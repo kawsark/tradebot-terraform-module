@@ -534,7 +534,7 @@ resource "aws_iam_role_policy" "tradebot-custom-access-role-policy" {
             "Sid": "3KMS",
             "Effect": "Allow",
             "Action": "kms:*",
-            "Resource": "arn:aws:kms:us-east-1:387808993772:alias/aws/sqs"
+            "Resource": "${var.sqs_kms}"
         }
     ]
 }
