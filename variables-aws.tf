@@ -55,6 +55,6 @@ variable "private_subnet_2_block" {
   default = "192.168.24.0/21"
 }
 
-variable "sqs_kms"{
+variable "sqs_kms" {
   default = "arn:aws:kms:us-east-1:387808993772:alias/aws/sqs"
 }
