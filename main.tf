@@ -548,7 +548,7 @@ resource "aws_sqs_queue" "tradebot_queue" {
   max_message_size          = 1024
   message_retention_seconds = 3600
   receive_wait_time_seconds = 20
-  kms_master_key_id         = "b4f8d75c-fcf5-4dda-8de3-2302c5b13e7b"
+  kms_master_key_id         = "${var.sqs_kms_key_id}"
   kms_data_key_reuse_period_seconds = 300
 
   # tags:
