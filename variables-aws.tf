@@ -16,7 +16,11 @@ variable "instance_size"{
 }
 
 variable "AMI" {
-  default = "ami-89109df"
+  type = "map"
+  default = {
+    us-east-1 = "ami-1164ea6e",
+    us-east-2 = "ami-c3ecd1a6"
+  }
 }
 
 variable "App" {
@@ -25,14 +29,6 @@ variable "App" {
 
 variable "aws_region" {
   default = "us-east-1"
-}
-
-variable "az_1" {
-  default = "us-east-1a"
-}
-
-variable "az_2" {
-  default = "us-east-1b"
 }
 
 variable "vpc_cidr_block" {
@@ -56,9 +52,17 @@ variable "private_subnet_2_block" {
 }
 
 variable "sqs_kms" {
-  default = "arn:aws:kms:us-east-1:387808993772:alias/aws/sqs"
+  type = "map"
+  default = {
+    us-east-1 = "arn:aws:kms:us-east-1:387808993772:alias/aws/sqs",
+    us-east-2 = "arn:aws:kms:us-east-2:387808993772:alias/aws/sqs"
+  }
 }
 
 variable "sqs_kms_key_id" {
-  default = "b4f8d75c-fcf5-4dda-8de3-2302c5b13e7b"
+  type = "map"
+  default = {
+    us-east-1 = "b4f8d75c-fcf5-4dda-8de3-2302c5b13e7b",
+    us-east-2 = "5f1e9ca1-d7af-49ad-b377-de7313c10221"
+  }
 }

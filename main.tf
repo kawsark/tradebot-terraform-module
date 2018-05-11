@@ -312,7 +312,7 @@ resource "aws_subnet" "tradebot-public-1" {
   vpc_id                  = "${aws_vpc.tradebot_vpc.id}"
   cidr_block              = "${var.public_subnet_1_block}"
   map_public_ip_on_launch = "true"
-  availability_zone       = "${var.az_1}"
+  availability_zone       = "${format("%sa",var.aws_region)}"
 
   tags {
     Name = "tradebot-public-1"
@@ -325,7 +325,7 @@ resource "aws_subnet" "tradebot-public-2" {
   vpc_id                  = "${aws_vpc.tradebot_vpc.id}"
   cidr_block              = "${var.public_subnet_2_block}"
   map_public_ip_on_launch = "true"
-  availability_zone       = "${var.az_2}"
+  availability_zone       = "${format("%sb",var.aws_region)}"
 
   tags {
     Name = "tradebot-public-2"
@@ -338,7 +338,7 @@ resource "aws_subnet" "tradebot-private-1" {
   vpc_id                  = "${aws_vpc.tradebot_vpc.id}"
   cidr_block              = "${var.private_subnet_1_block}"
   map_public_ip_on_launch = "false"
-  availability_zone       = "${var.az_1}"
+  availability_zone       = "${format("%sa",var.aws_region)}"
 
   tags {
     Name = "tradebot-private-1"
@@ -351,7 +351,7 @@ resource "aws_subnet" "tradebot-private-2" {
   vpc_id                  = "${aws_vpc.tradebot_vpc.id}"
   cidr_block              = "${var.private_subnet_2_block}"
   map_public_ip_on_launch = "false"
-  availability_zone       = "${var.az_2}"
+  availability_zone       = "${format("%sb",var.aws_region)}"
 
   tags {
     Name = "tradebot-private-2"
@@ -534,7 +534,7 @@ resource "aws_iam_role_policy" "tradebot-custom-access-role-policy" {
             "Sid": "3KMS",
             "Effect": "Allow",
             "Action": "kms:*",
-            "Resource": "${var.sqs_kms}"
+            "Resource": "${lookup(var.sqs_kms, var.aws_region)}"
         }
     ]
 }
@@ -548,7 +548,7 @@ resource "aws_sqs_queue" "tradebot_queue" {
   max_message_size          = 1024
   message_retention_seconds = 3600
   receive_wait_time_seconds = 20
-  kms_master_key_id         = "${var.sqs_kms_key_id}"
+  kms_master_key_id         = "${lookup(var.sqs_kms_key_id, var.aws_region)}"
   kms_data_key_reuse_period_seconds = 300
 
   # tags:
@@ -562,7 +562,7 @@ resource "aws_sqs_queue" "tradebot_queue" {
 #Launch configuration
 resource "aws_launch_configuration" "tradebotserver_lc" {
   name_prefix   = "tradebotserver-"
-  image_id      = "${var.AMI}"
+  image_id      = "${lookup(var.AMI, var.aws_region)}"
   instance_type = "${var.instance_size}"
 
   # public SSH key
