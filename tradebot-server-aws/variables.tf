@@ -1,3 +1,7 @@
+variable "environment" {
+	 default = "Production"
+}
+
 variable "tradebot-in-queue" {
   default = "tradebot-in-prod-queue-YP0MHaB"
 }
@@ -65,4 +69,12 @@ variable "sqs_kms_key_id" {
     us-east-1 = "b4f8d75c-fcf5-4dda-8de3-2302c5b13e7b",
     us-east-2 = "5f1e9ca1-d7af-49ad-b377-de7313c10221"
   }
+}
+
+variable "vault_secret_path" {
+	 default = "secret/tradebot/prod"
+}
+
+variable "vault_common_secret_path" {
+	 default = "secret/tradebot/common"
 }
