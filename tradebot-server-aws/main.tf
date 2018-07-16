@@ -4,7 +4,9 @@ provider "vault" {
 }
 
 provider "aws" {
- # AWS provider configured via default shared credentials file
+ # AWS provider configured in Vault
+ access_key = "${data.vault_generic_secret.tradebot_common_secret.data["aws_access_key"]}"
+ secret_key = "${data.vault_generic_secret.tradebot_common_secret.data["aws_secret_key"]}"
  region = "${var.aws_region}"
 }
 

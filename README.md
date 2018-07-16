@@ -1,8 +1,23 @@
 # tradebot-terraform-module
-Terraform module to provision Tradebot Web UI in Azure and Tradebot Server in AWS
+Terraform modules to provision Tradebot Web UI in Azure, Tradebot DNS in CloudFlare, and Tradebot Server in AWS.
+- Tradebot Server module path: [tradebot-server-aws](tradebot-server-aws)
+- Tradebot UI and DNS module path: [tradebot-ui-azure](tradebot-ui-azure)
 
 ## Prerequisites
-- AWS provider credentials (often set via AWS CLI)
-- Azure provider credentials (usually set via environment variables)
-- Vault server with SSH public key, CloudFlare email and API key
-- VAULT_ADDR and VAULT_TOKEN environment variables
+- Vault server with SSH public key and Windows server password set at the path of following terraform variable value: `vault_secret_path`.
+```
+admin_password
+id_rsa_pub
+```
+- Vault server with the the following provider credentials set at the path of following terraform variable value: `vault_common_secret_path`.
+```
+aws_access_key
+aws_secret_key
+azurerm_client_id
+azurerm_client_secret
+azurerm_subscription_id
+azurerm_tenant_id
+cloudflare_api_key
+cloudflare_email
+```
+- Environment variables for Vault server: `VAULT_ADDR`, `VAULT_TOKEN` and `VAULT_CACERT` (in case SSL is enabled).

@@ -4,10 +4,14 @@ provider "vault" {
 }
 
 provider "azurerm" {
-  # Azurerm provider configured via environment variables
+  # Azurerm provider configured in Vault
+  subscription_id = "${data.vault_generic_secret.tradebot_common_secret.data["azurerm_subscription_id"]}"
+  client_id = "${data.vault_generic_secret.tradebot_common_secret.data["azurerm_client_id"]}"
+  client_secret = "${data.vault_generic_secret.tradebot_common_secret.data["azurerm_client_secret"]}"
+  tenant_id = "${data.vault_generic_secret.tradebot_common_secret.data["azurerm_tenant_id"]}"
 }
 
-# Configure the Cloudflare provider
+# Cloudflare provider configured in Vault
 provider "cloudflare" {
   email = "${data.vault_generic_secret.tradebot_common_secret.data["cloudflare_email"]}"
   token = "${data.vault_generic_secret.tradebot_common_secret.data["cloudflare_api_key"]}"
