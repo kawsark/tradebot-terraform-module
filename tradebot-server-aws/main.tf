@@ -321,7 +321,7 @@ resource "aws_autoscaling_group" "tradebotserver_asg" {
   desired_capacity     = "${var.asg_size_map["desired"]}"
   health_check_type    = "EC2"
 
-  vpc_zone_identifier       = ["${aws_subnet.tradebot-private-1.id}", "${aws_subnet.tradebot-private-2.id}"]
+  vpc_zone_identifier       = ["${aws_subnet.tradebot-public-1.id}", "${aws_subnet.tradebot-public-2.id}"]
 
  tags = [
     {
