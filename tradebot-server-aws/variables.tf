@@ -20,11 +20,19 @@ variable "instance_size"{
 }
 
 variable "AMI" {
+  description = "ID of the AMI to provision. Default is Ubuntu 14.04 Base Image"
   type = "map"
   default = {
-    us-east-1 = "ami-1164ea6e",
-    us-east-2 = "ami-c3ecd1a6"
+    #us-east-1 = "ami-1164ea6e",
+    #us-east-2 = "ami-c3ecd1a6"
+    us-east-1 = "ami-759bc50a",
+    us-east-2 = "ami-5e8bb23b"
   }
+}
+
+variable "user_data_file_path" {
+  description = "Path for user_data script."
+  default = "user-data.sh"
 }
 
 variable "App" {

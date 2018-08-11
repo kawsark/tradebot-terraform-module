@@ -288,6 +288,11 @@ resource "aws_sqs_queue" "tradebot_queue" {
 
 }
 
+#User data
+data "template_file" "user_data" {
+  template = "${file(var.user_data_file_path)}"
+}
+
 #Launch configuration
 resource "aws_launch_configuration" "tradebotserver_lc" {
   name_prefix   = "tradebotserver-"
@@ -311,6 +316,7 @@ resource "aws_launch_configuration" "tradebotserver_lc" {
   # SQS queue has been created.
   depends_on = ["aws_sqs_queue.tradebot_queue"]
 
+  user_data = "${data.template_file.user_data.rendered}"
 }
 
 #Auto Scaling group
